@@ -16,6 +16,13 @@ function git_relative_path {
     git rev-parse --show-prefix 2>/dev/null
 }
 
+# Function to get the name of the current virtual environment
+function venv_name {
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        echo "($(basename $VIRTUAL_ENV)) "
+    fi
+}
+
 # Define colors
 autoload -U colors && colors
 
@@ -33,6 +40,7 @@ function set_prompt {
     local git_folder_name=$(parent_git_folder_name)
     local git_relative_path=$(git_relative_path)
     local dir
+    local venv=$(venv_name)
 
     if [[ -n $git_folder_name ]]; then
         dir="${git_folder_name}/${git_relative_path}"
@@ -41,13 +49,12 @@ function set_prompt {
     fi
 
     if [[ -n $git_branch ]]; then
-        PROMPT="${NO_COLOR}[${USER_COLOR}%n${NO_COLOR}@${HOST_COLOR}%m${NO_COLOR}] ${DIR_COLOR}[$dir] ${GIT_COLOR}($git_branch)${NO_COLOR} \$ "
+        PROMPT="${NO_COLOR}${venv}[${USER_COLOR}%n${NO_COLOR}@${HOST_COLOR}%m${NO_COLOR}] ${DIR_COLOR}[$dir] ${GIT_COLOR}($git_branch)${NO_COLOR} \$ "
     else
-        PROMPT="${NO_COLOR}[${USER_COLOR}%n${NO_COLOR}@${HOST_COLOR}%m${NO_COLOR}] ${CURRENT_DIR_COLOR}[$dir] ${GIT_COLOR}()${NO_COLOR} \$ "
+        PROMPT="${NO_COLOR}${venv}[${USER_COLOR}%n${NO_COLOR}@${HOST_COLOR}%m${NO_COLOR}] ${CURRENT_DIR_COLOR}[$dir] ${GIT_COLOR}()${NO_COLOR} \$ "
     fi
 }
 
 # Set prompt
 precmd_functions+=(set_prompt)
 ```
-
