@@ -46,8 +46,8 @@ function set_prompt {
         PROMPT="${NO_COLOR}[${USER_COLOR}%n${NO_COLOR}@${HOST_COLOR}%m${NO_COLOR}] ${CURRENT_DIR_COLOR}[$dir] ${GIT_COLOR}()${NO_COLOR} \$ "
     fi
 }
-```
 
-    # Set prompt
-    precmd_functions+=(set_prompt)
+# Set prompt
+precmd_functions+=(set_prompt)
+```
 
